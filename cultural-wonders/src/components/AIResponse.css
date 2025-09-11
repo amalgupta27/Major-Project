@@ -1,0 +1,235 @@
+/* AI Response Component Styles */
+.ai-response {
+  display: flex;
+  gap: 12px;
+  padding: 16px 20px;
+  margin: 16px 0;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #fff 0%, #f8f6f0 100%);
+  border: 2px solid #d4af37;
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.1);
+  animation: slideInFade 0.5s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-response::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(255, 153, 51, 0.05), rgba(0, 105, 148, 0.05));
+  pointer-events: none;
+}
+
+.ai-response > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Variants */
+.ai-response--hint {
+  background: linear-gradient(135deg, #e8f4fd 0%, #f0f8ff 100%);
+  border-color: #006994;
+  border-left: 4px solid #006994;
+}
+
+.ai-response--story {
+  background: linear-gradient(135deg, #fff5e6 0%, #fef9e7 100%);
+  border-color: #ff9933;
+  border-left: 4px solid #ff9933;
+}
+
+.ai-response--travel {
+  background: linear-gradient(135deg, #f0f8e8 0%, #f5f9f0 100%);
+  border-color: #228b22;
+  border-left: 4px solid #228b22;
+}
+
+.ai-response--historical {
+  background: linear-gradient(135deg, #f5e6d3 0%, #f9f0e6 100%);
+  border-color: #8b4513;
+  border-left: 4px solid #8b4513;
+}
+
+.ai-response--search {
+  background: linear-gradient(135deg, #f0e6ff 0%, #f5f0ff 100%);
+  border-color: #800080;
+  border-left: 4px solid #800080;
+}
+
+/* Icon */
+.ai-response__icon {
+  font-size: 24px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  animation: gentle-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes gentle-glow {
+  from { 
+    filter: drop-shadow(0 0 5px rgba(255, 153, 51, 0.3));
+  }
+  to { 
+    filter: drop-shadow(0 0 10px rgba(255, 153, 51, 0.6));
+  }
+}
+
+/* Content */
+.ai-response__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.ai-response__text {
+  font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.ai-response--hint .ai-response__text {
+  color: #006994;
+  font-weight: 500;
+}
+
+.ai-response--story .ai-response__text {
+  color: #8b4513;
+  font-style: italic;
+}
+
+.ai-response--travel .ai-response__text {
+  color: #228b22;
+}
+
+.ai-response--historical .ai-response__text {
+  color: #8b4513;
+  font-weight: 500;
+}
+
+.ai-response--search .ai-response__text {
+  color: #800080;
+}
+
+/* Typing cursor */
+.ai-response__cursor {
+  animation: blink 1s infinite;
+  color: #ff9933;
+  font-weight: bold;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Footer */
+.ai-response__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(139, 69, 19, 0.1);
+}
+
+.ai-response__timestamp {
+  font-size: 11px;
+  color: #999;
+  font-style: italic;
+}
+
+/* Animations */
+@keyframes slideInFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.ai-response--typing {
+  animation: slideInFade 0.5s ease-out, gentle-pulse 2s ease-in-out infinite;
+}
+
+@keyframes gentle-pulse {
+  0%, 100% { 
+    box-shadow: 0 4px 12px rgba(139, 69, 19, 0.1);
+  }
+  50% { 
+    box-shadow: 0 6px 16px rgba(139, 69, 19, 0.15);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .ai-response {
+    padding: 12px 16px;
+    margin: 12px 0;
+    border-radius: 12px;
+  }
+  
+  .ai-response__icon {
+    font-size: 20px;
+  }
+  
+  .ai-response__text {
+    font-size: 13px;
+  }
+  
+  .ai-response__timestamp {
+    font-size: 10px;
+  }
+}
+
+/* Special effects for different types */
+.ai-response--hint::after {
+  content: '💡';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 16px;
+  opacity: 0.3;
+}
+
+.ai-response--story::after {
+  content: '📖';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 16px;
+  opacity: 0.3;
+}
+
+.ai-response--travel::after {
+  content: '🗺️';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 16px;
+  opacity: 0.3;
+}
+
+.ai-response--historical::after {
+  content: '⏰';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 16px;
+  opacity: 0.3;
+}
+
+.ai-response--search::after {
+  content: '🔍';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 16px;
+  opacity: 0.3;
+}
