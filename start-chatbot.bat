@@ -22,6 +22,20 @@ if %errorlevel% neq 0 (
 )
 
 echo.
+echo [2.5/3] Ensuring backend .env exists...
+cd ..
+if not exist "backend\.env" (
+    if exist "backend\.env.example" (
+        copy "backend\.env.example" "backend\.env" >nul
+        echo Created backend\.env from backend\.env.example. Please edit it with your API keys.
+    ) else (
+        echo WARNING: backend\.env and backend\.env.example not found. Please create backend\.env with required keys.
+    )
+) else (
+    echo backend\.env already present.
+)
+
+echo.
 echo [3/3] Starting servers...
 echo.
 echo Backend will start on: http://localhost:5000
