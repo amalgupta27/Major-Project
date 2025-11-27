@@ -9,35 +9,63 @@ body {
   font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.6;
   color: #2c1810; /* Deep earthy tone for traditional vibe */
-  background: #fdf6e3; /* Light beige background */
+  background: #f5e9d5; /* Warm beige background */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  margin: 0;
+  padding: 0;
 }
 
 /* Main App container */
-
 .App {
-  flex: 1;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  width: 100vw;
+  width: 100%;
   max-width: 100%;
   overflow-x: hidden;
+  position: relative;
+  background: #f5e9d5; /* Match body background */
+  margin: 0;
+  padding: 0;
 }
-
 
 .main-content {
   flex: 1;
-  margin-top: 80px; /* space for fixed navbar */
-  padding: 24px 2vw 24px 2vw;
-  animation: fadeIn 1s ease-in-out;
   width: 100%;
-  max-width: 1400px;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 1800px;
+  margin: 60px auto 0; /* Add top margin to push content below fixed navbar */
+  padding: 2rem 2.5%;
   box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+  animation: fadeIn 1s ease-in-out;
+  min-height: calc(100vh - 60px);
+  background: #f5e9d5; /* Match body background */
+}
+
+/* Ensure all direct children of main content have proper spacing */
+.main-content > * {
+  margin-bottom: 2rem;
+}
+
+.main-content > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .main-content {
+    padding: 1.5rem 3%;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 1rem 2%;
+    margin-top: 70px;
+  }
 }
 
 /* Buttons with traditional Indian heritage colors */

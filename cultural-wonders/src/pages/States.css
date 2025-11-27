@@ -81,17 +81,45 @@
   height: 200px;
   overflow: hidden;
   position: relative;
+  background: #f5f5f5;
+  border-radius: 8px 8px 0 0;
 }
 
 .state-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  transition: transform 0.4s ease, opacity 0.3s ease-in-out;
+  will-change: transform, opacity;
+}
+
+/* Loading animation */
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.state-image::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, #f5f5f5 0%, #e8e8e8 50%, #f5f5f5 100%);
+  background-size: 1000px 100%;
+  animation: shimmer 1.5s infinite linear;
+  z-index: 1;
+}
+
+.state-image img[src] {
+  position: relative;
+  z-index: 2;
+  background: white;
 }
 
 .state-card:hover .state-image img {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .state-content {

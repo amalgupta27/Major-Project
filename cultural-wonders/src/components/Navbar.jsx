@@ -1,24 +1,69 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { gsap } from 'gsap'
 import AISearch from './AISearch'
 import './Navbar.css'
 
+// Add wrapper styles
+const wrapperStyle = {
+  position: 'relative',
+  minHeight: '48px',
+  width: '100%',
+  zIndex: 1000
+};
+
+
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [prevScrollPos, setPrevScrollPos] = useState(0)
+  const [visible, setVisible] = useState(true)
   const location = useLocation()
   const navigate = useNavigate()
   const searchRef = useRef(null)
   const menuRef = useRef(null)
+  const navbarRef = useRef(null)
+
+  const handleScroll = useCallback(() => {
+    const currentScrollPos = window.pageYOffset
+    const isVisible = prevScrollPos > currentScrollPos || currentScrollPos < 10
+
+    if (navbarRef.current) {
+      if (isVisible) {
+        gsap.to(navbarRef.current, {
+          y: 0,
+          duration: 0.3,
+          ease: 'power2.out'
+        })
+      } else {
+        gsap.to(navbarRef.current, {
+          y: -navbarRef.current.offsetHeight,
+          duration: 0.3,
+          ease: 'power2.in'
+        })
+      }
+    }
+
+    setPrevScrollPos(currentScrollPos)
+    setVisible(isVisible)
+  }, [prevScrollPos])
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [handleScroll])
 
   useEffect(() => {
     // GSAP animation for navbar entrance
-    gsap.fromTo('.navbar', 
-      { y: -100, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: 'power2.out' }
-    )
+    if (navbarRef.current) {
+      gsap.fromTo(navbarRef.current, 
+        { y: -100, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1, ease: 'power2.out' }
+      )
+    }
   }, [])
 
   useEffect(() => {
@@ -29,7 +74,10 @@ const Navbar = () => {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
-    if (isSearchOpen) setIsSearchOpen(false)
+    if (isMenuOpen) setIsMenuOpen(false)
+    if (!isSearchOpen) {
+      setTimeout(() => searchRef.current?.focus(), 100)
+    }
   }
 
   const toggleSearch = () => {
@@ -53,7 +101,8 @@ const Navbar = () => {
   const isActive = (path) => location.pathname === path
 
   return (
-    <nav className="navbar">
+   <div className="navbar-wrapper">
+      <nav className="navbar" ref={navbarRef}>
       <div className="navbar-container">
         <Link to="/" className="navbar-logo">
           <span className="logo-text">🏛️ Cultural Wonders</span>
@@ -133,15 +182,17 @@ const Navbar = () => {
         </div>
 
         <div className="navbar-actions">
-          {/* Search Button */}
-          <button 
-            className={`search-toggle ${isSearchOpen ? 'active' : ''}`}
-            onClick={toggleSearch}
-            aria-label="Toggle search"
-          >
-            🔍
-          </button>
-
+          {/* AI Search Bar in Navbar */}
+          <div className="nav-search-container">
+            <AISearch 
+              placeholder="Search cultural heritage..."
+              onSearchResults={(query, results) => {
+                console.log('AI Search Results:', { query, results });
+                // You can add navigation logic here based on search results
+              }}
+            />
+          </div>
+          
           {/* Mobile Menu Toggle */}
           <div className={`navbar-toggle ${isMenuOpen ? 'active' : ''}`} onClick={toggleMenu}>
             <span className="bar"></span>
@@ -149,19 +200,10 @@ const Navbar = () => {
             <span className="bar"></span>
           </div>
         </div>
-
-        {/* AI Search Bar */}
-        <div className={`search-container ${isSearchOpen ? 'active' : ''}`}>
-          <AISearch 
-            placeholder="Ask AI about cultural heritage..."
-            onSearchResults={(query, results) => {
-              console.log('AI Search Results:', { query, results });
-              // You can add navigation logic here based on search results
-            }}
-          />
-        </div>
       </div>
+
     </nav>
+    </div>
   )
 }
 

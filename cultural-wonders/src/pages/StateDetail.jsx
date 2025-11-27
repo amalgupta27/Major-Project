@@ -65,7 +65,19 @@ const StateDetail = () => {
 
       <div className="container detail-content" ref={containerRef}>
         <div className="detail-hero">
-          <img src={state.image} alt={state.name} />
+          <img 
+            src={state.image} 
+            alt={state.name} 
+            loading="lazy"
+            onLoad={(e) => e.target.style.opacity = 1}
+            style={{
+              opacity: 0,
+              transition: 'opacity 0.5s ease-in-out',
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover'
+            }}
+          />
         </div>
 
         <section className="detail-section">

@@ -98,12 +98,11 @@ const AISearch = ({ onSearchResults = null, placeholder = "Search cultural herit
             onClick={handleSearch}
             variant="primary"
             size="small"
-            icon="🔍"
             loading={isLoading}
             disabled={!query.trim()}
             className="ai-search__button"
           >
-            Search
+            {isLoading ? 'Searching...' : 'Search'}
           </AIButton>
           <AIButton
             onClick={startListening}

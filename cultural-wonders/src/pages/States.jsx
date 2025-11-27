@@ -36,7 +36,16 @@ const States = () => {
         {statesData.map((state) => (
           <div key={state.id} className="state-card">
             <div className="state-image">
-              <img src={state.image} alt={state.name} />
+              <img 
+                src={state.image} 
+                alt={state.name} 
+                loading="lazy"
+                onLoad={(e) => e.target.style.opacity = 1}
+                style={{
+                  opacity: 0,
+                  transition: 'opacity 0.3s ease-in-out'
+                }}
+              />
             </div>
             <div className="state-content">
               <h3>{state.name}</h3>
